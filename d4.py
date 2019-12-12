@@ -30,4 +30,4 @@ def has_triplets(string: str, value):
     return False
 
 
-part_one()
+part_one()  # accidentally rewrited part_one for part_two

@@ -21,12 +21,12 @@ def part_two(target=19_690_720):
         for verb in range(100):
             with open('d2_input.txt') as fin:
                 intcode = [int(i) for i in fin.readline().split(',')]
-    
+
             intcode[1] = noun
             intcode[2] = verb
-            print(part_one(intcode))
     
             if part_one(intcode) == target:
                 return 100 * noun + verb
         
-# print(part_two())
+
+print(part_two())

@@ -1,5 +1,4 @@
 def part_one(data):
-    pic = []
     layers = []
     for i in range(len(data) // width // height):
         layers.append(data[width * height * i:width * height * (i + 1)])
