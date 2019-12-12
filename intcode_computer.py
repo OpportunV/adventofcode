@@ -4,12 +4,12 @@ class IntcodeComputer:
             with open('d7_input.txt') as fin:
                 intcode = [int(i) for i in fin.readline().split(',')]
 
-        self.intcode = intcode
+        self.intcode = intcode + [0] * 3000
         self.pointer = 0
         self.ind = ind
-        self.cor = 0
+        self.rel_base = 0
         self.cor = self.run()
-        self.cor.send(None)
+        self.first_val = self.cor.send(None)
         
     @property
     def value(self):
@@ -27,12 +27,16 @@ class IntcodeComputer:
             return self.intcode[self.intcode[self.pointer + order]]
         elif self.get_param_mode(order) == 1:
             return self.intcode[self.pointer + order]
+        elif self.get_param_mode(order) == 2:
+            return self.intcode[self.rel_base + self.intcode[self.pointer + order]]
     
     def set_param(self, order, value):
         if self.get_param_mode(order) == 0:
             self.intcode[self.intcode[self.pointer + order]] = value
         elif self.get_param_mode(order) == 1:
             self.intcode[self.pointer + order] = value
+        elif self.get_param_mode(order) == 2:
+            self.intcode[self.rel_base + self.intcode[self.pointer + order]] = value
     
     def run(self):
         while self.opcode != 99:
@@ -72,3 +76,7 @@ class IntcodeComputer:
             elif self.opcode == 8:
                 self.set_param(3, int(self.get_param(1) == self.get_param(2)))
                 self.pointer += 4
+                
+            elif self.opcode == 9:
+                self.rel_base += self.get_param(1)
+                self.pointer += 2
