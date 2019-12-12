@@ -23,8 +23,6 @@ def part_one():
 
 def part_two():
     maximum = float('-inf')
-    # phases = [9,8,7,6,5]
-    # phases = [9,7,8,5,6]
     
     for phases in permutations([5, 6, 7, 8, 9]):
         amps = []
