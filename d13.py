@@ -82,7 +82,6 @@ class Arcade:
         return [[int(j) for j in i] for i in tmp.split()]
         
 
-
 def write_tile(x, y, _id, last_y=[0]):
     tiles = {0: '\u25AF',  # empty
              1: '\u23F8',  # wall
