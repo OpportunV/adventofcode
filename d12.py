@@ -46,9 +46,9 @@ class Moon:
 def get_axes_velocities(moons):
     tmp = [''] * 3
     for moon in moons:
-        tmp[0] += f'{moon.vx}'
-        tmp[1] += f'{moon.vy}'
-        tmp[2] += f'{moon.vz}'
+        tmp[0] += f'{moon.x}{moon.vx}'
+        tmp[1] += f'{moon.y}{moon.vy}'
+        tmp[2] += f'{moon.z}{moon.vz}'
     
     return tmp
 
@@ -88,7 +88,7 @@ def part_both(data):
         if sum(cycled) == 3:
             break
     
-    return lcm(lcm(periods[0], periods[1]), periods[2]) * 2
+    return lcm(lcm(periods[0], periods[1]), periods[2])
     
     
 with open('d12_input.txt') as fin:
