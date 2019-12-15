@@ -1,4 +1,4 @@
-from itertools import chain
+from collections import defaultdict, deque
 from random import randint
 
 from matplotlib import pyplot as plt
@@ -63,7 +63,42 @@ def draw_field(field):
 
 
 def part_one(field):
-    pass
+    xs, ys = np.where(field == 2)
+    target = (xs[0], ys[0])
+    start = len(field) // 2 + 1, len(field) // 2 + 1
+    field[start] = 3
+    path = defaultdict(lambda:float('inf'))
+    path[start] = 0
+    to_check = deque()
+    to_check.append(start)
+    fig, ax = plt.subplots()
+    img = plt.imshow(field)
+    plt.ion()
+    plt.axis(False)
+    plt.plot()
+    while target not in path:
+        current = to_check.popleft()
+        x, y = current
+        if field[x - 1, y] == 1 or field[x - 1, y] == 2:
+            path[(x - 1, y)] = min(path[(x - 1, y)], path[current] + 1)
+            field[x - 1, y] = 3
+            to_check.append((x - 1, y))
+        if field[x + 1, y] == 1 or field[x + 1, y] == 2:
+            path[(x + 1, y)] = min(path[(x + 1, y)], path[current] + 1)
+            field[x + 1, y] = 3
+            to_check.append((x + 1, y))
+        if field[x, y - 1] == 1 or field[x, y - 1] == 2:
+            path[(x, y - 1)] = min(path[(x, y - 1)], path[current] + 1)
+            field[x, y - 1] = 3
+            to_check.append((x, y - 1))
+        if field[x, y + 1] == 1 or field[x, y + 1] == 2:
+            path[(x, y + 1)] = min(path[(x, y + 1)], path[current] + 1)
+            field[x, y + 1] = 3
+            to_check.append((x, y + 1))
+        
+        img.set_data(field)
+        plt.pause(.001)
+    return path[target]
 
 
 def part_two(field):
@@ -98,11 +133,11 @@ def part_two(field):
     fig, ax = plt.subplots()
     img = plt.imshow(field, interpolation='none')
     plt.axis('off')
-    anim = FuncAnimation(fig, update, interval=10, frames=382)
+    anim = FuncAnimation(fig, update, interval=1, frames=382)
     writer = FFMpegWriter(fps=60)
     plt.rcParams['animation.ffmpeg_path'] = r'D:\univ\Progin\ffmpeg\bin\ffmpeg.exe'
-    anim.save('anim.gif')
-    # plt.show()
+    # anim.save('anim.mp4', writer-writer)
+    plt.show()
 
 
 with open('d15_input.txt') as fin:
@@ -111,6 +146,6 @@ with open('d15_input.txt') as fin:
 # get_full_map(intc)
 field = np.loadtxt('d15_output.txt')
 
-# part_one(intc)
-part_two(field)
+print(part_one(field))
+# part_two(field)
 

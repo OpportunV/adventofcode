@@ -18,7 +18,8 @@ class Arcade:
         self.fig, self.ax = plt.subplots()
         self.get_field()
         self.img = plt.imshow(self.draw_field())
-        self.animation = FuncAnimation(self.fig, self.update)
+        plt.axis('off')
+        self.animation = FuncAnimation(self.fig, self.update, interval=10)
         plt.show()
         
     def update(self, frame):
