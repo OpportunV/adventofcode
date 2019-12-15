@@ -20,6 +20,7 @@ class Asteroid:
 
 
 def part_one(field):
+    """works long!"""
     asteroids = [Asteroid(j, i) for i in range(len(field)) for j in range(len(field[i])) if field[i][j] == '#']
     
     max_detected = 0
@@ -39,12 +40,13 @@ def part_one(field):
                     closest_in_direction = item
                 else:
                     tmp_asteroids.remove(item)
-                    
+        
         cur_detected = len(tmp_asteroids)
         if cur_detected > max_detected:
             max_detected = cur_detected
             pos = station
-            
+    
+    print(pos)
     return max_detected
 
 
@@ -90,5 +92,5 @@ with open('d10_input.txt') as fin:
     data = fin.read().splitlines()
 
 
-# print(part_one(data))
-part_two(data)
+print(part_one(data))
+# part_two(data)
