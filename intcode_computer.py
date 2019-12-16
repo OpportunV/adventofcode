@@ -1,9 +1,5 @@
 class IntcodeComputer:
     def __init__(self, ind, intcode: list = None):
-        if intcode is None:
-            with open('d7_input.txt') as fin:
-                intcode = [int(i) for i in fin.readline().split(',')]
-
         self.intcode = intcode + [0] * 3000
         self.pointer = 0
         self.ind = ind

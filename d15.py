@@ -1,5 +1,4 @@
 from collections import defaultdict, deque
-from random import randint
 
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation, FFMpegWriter
@@ -9,15 +8,6 @@ from intcode_computer import IntcodeComputer
 
 
 def get_full_map(intcode):
-    """north (1), south (2), west (3), and east (4)
-    -1: fog of war
-    0: The repair droid hit a wall. Its position has not changed.
-    1: The repair droid has moved one step in the requested direction.
-    2: The repair droid has moved one step in the requested direction;
-    its new position is the location of the oxygen system.
-    4: oxygen
-    5: start
-"""
     comp = IntcodeComputer(0, intcode)
     size = 41
     field = np.zeros((size, size), dtype=int) - 1
@@ -52,11 +42,11 @@ def get_full_map(intcode):
                 
     reply = 1
     done = False
-    # fig, ax = plt.subplots()
-    # img = plt.imshow(field)
-    # plt.ion()
-    # plt.axis(False)
-    # plt.show()
+    fig, ax = plt.subplots()
+    img = plt.imshow(field)
+    plt.ion()
+    plt.axis(False)
+    plt.show()
     mover = get_move()
     while not done:
         move = next(mover)
@@ -75,11 +65,11 @@ def get_full_map(intcode):
         if reply == 0:
             x, y = prev_pos
         
-        # tmp =field[x, y]
-        # field[x, y] = 5
-        # img.set_data(field)
-        # plt.pause(.0000001)
-        # field[x, y] = tmp
+        tmp =field[x, y]
+        field[x, y] = 5
+        img.set_data(field)
+        plt.pause(1e-10)
+        field[x, y] = tmp
         
         xs, ys = np.where(field[1:-1, 1:-1] == -1)
         for _x, _y in zip(xs + 1, ys + 1):
@@ -170,6 +160,7 @@ def part_two(field):
         img.set_data(field)
         if 1 not in field:
             print(time)
+            input('exit\t')
             exit()
         return img
     
@@ -188,8 +179,8 @@ def part_two(field):
 
 with open('d15_input.txt') as fin:
     intc = [int(i) for i in fin.readline().split(',')]
-    
-# get_full_map(intc)
+
+get_full_map(intc)
 field = np.loadtxt('d15_output.txt')
 
 # print(part_one(field))
