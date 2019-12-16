@@ -40,14 +40,9 @@ def main():
     a = signal[:]
     b = signal[:] * 10000
     b = b[offset:]
-    
-    print(offset, len(b), len(b) // 2)
 
-    a = part_one(a, 100)
-    b = part_two(b, 100)
-
-    print(*a[:8], sep='')
-    print(*b[:8], sep='')
+    print(*part_one(a, 100)[:8], sep='')
+    print(*part_two(b, 100)[:8], sep='')
 
 
 if __name__ == '__main__':
