@@ -58,7 +58,7 @@ def part_two(intcode, field):
             if repl:
                 print(chr(repl))
         
-        if 'y' in prog[-1]:
+        if 'y' in pr:
             break
         while repl := next(comp.cor):
             if repl and chr(repl).isascii():
@@ -66,7 +66,7 @@ def part_two(intcode, field):
             else:
                 print(repl)
                 
-    if 'y' in prog[1]:
+    if 'y' in prog[-1]:
         def update(frame):
             nonlocal frames, field
             frames += 1
@@ -86,11 +86,12 @@ def part_two(intcode, field):
         img = plt.imshow(field, interpolation='none')
         plt.axis(False)
         frames = 0
-        anim = FuncAnimation(fig, update, interval=0.1, frames=343)
+        anim = FuncAnimation(fig, update, interval=0.5, frames=343)
         writer = FFMpegWriter(fps=30)
         plt.rcParams['animation.ffmpeg_path'] = r'D:\univ\Progin\ffmpeg\bin\ffmpeg.exe'
-        anim.save('d17.mp4', writer=writer)
-
+        # anim.save('d17.mp4', writer=writer)
+        plt.show()
+        
 
 with open('d17_input.txt') as fin:
     intc = [int(i) for i in fin.readline().split(',')]
