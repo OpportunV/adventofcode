@@ -173,7 +173,7 @@ def part_two(field):
     anim = FuncAnimation(fig, update, interval=1, frames=382)
     writer = FFMpegWriter(fps=60)
     plt.rcParams['animation.ffmpeg_path'] = r'D:\univ\Progin\ffmpeg\bin\ffmpeg.exe'
-    # anim.save('anim.mp4', writer-writer)
+    # anim.save('anim.mp4', writer=writer)
     plt.show()
 
 
