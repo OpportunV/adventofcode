@@ -43,7 +43,7 @@ def part_two(intcode, field):
         'L,6,6,L,6,L,8,R,6\n',
         'L,8,L,8,R,4,R,6,R,6\n',
         'L,6,6,R,6,L,8\n',
-        'y\n',
+        'n\n',
     ]
     
     print(chr(comp.first_val), end='', sep='')
@@ -58,38 +58,38 @@ def part_two(intcode, field):
             if repl:
                 print(chr(repl))
         
-        if pr == prog[-1]:
+        if 'y' in prog[-1]:
             break
         while repl := next(comp.cor):
             if repl and chr(repl).isascii():
                 print(chr(repl), end='')
             else:
                 print(repl)
-                break
-    
-    def update(frame):
-        nonlocal frames, field
-        frames += 1
-        for i in range(len(field)):
-            for j in range(len(field[0])):
-                tmp = next(comp.cor)
-                while tmp == 10:
+                
+    if 'y' in prog[1]:
+        def update(frame):
+            nonlocal frames, field
+            frames += 1
+            for i in range(len(field)):
+                for j in range(len(field[0])):
                     tmp = next(comp.cor)
-                field[i, j] = tmp
-
-        img.set_data(field)
-        return img
-        
-    from matplotlib import pyplot as plt
-    from matplotlib.animation import FuncAnimation, FFMpegWriter
-    fig, ax = plt.subplots()
-    img = plt.imshow(field, interpolation='none')
-    plt.axis(False)
-    frames = 0
-    anim = FuncAnimation(fig, update, interval=0.1, frames=343)
-    writer = FFMpegWriter(fps=30)
-    plt.rcParams['animation.ffmpeg_path'] = r'D:\univ\Progin\ffmpeg\bin\ffmpeg.exe'
-    anim.save('d17.mp4', writer=writer)
+                    while tmp == 10:
+                        tmp = next(comp.cor)
+                    field[i, j] = tmp
+    
+            img.set_data(field)
+            return img
+            
+        from matplotlib import pyplot as plt
+        from matplotlib.animation import FuncAnimation, FFMpegWriter
+        fig, ax = plt.subplots()
+        img = plt.imshow(field, interpolation='none')
+        plt.axis(False)
+        frames = 0
+        anim = FuncAnimation(fig, update, interval=0.1, frames=343)
+        writer = FFMpegWriter(fps=30)
+        plt.rcParams['animation.ffmpeg_path'] = r'D:\univ\Progin\ffmpeg\bin\ffmpeg.exe'
+        anim.save('d17.mp4', writer=writer)
 
 
 with open('d17_input.txt') as fin:
