@@ -3,7 +3,7 @@ from collections import defaultdict
 
 def get_ore_amount_for(amount, name, target, react_dict, counter):
     counter[name] = 0
-    required = defaultdict(lambda:0)
+    required = defaultdict(lambda: 0)
     required[name] = amount
     while True:
         for item in counter:
@@ -19,11 +19,11 @@ def get_ore_amount_for(amount, name, target, react_dict, counter):
                     counter[needed] -= 1
                 counter.pop(item)
                 break
-                
-                
+
+
 def part_one(reactions):
     react_dict = defaultdict(list)
-    counter = defaultdict(lambda:0)
+    counter = defaultdict(lambda: 0)
     for reaction in reactions:
         requires, out = reaction.split('=>')
         requires = requires.split(',')
@@ -34,7 +34,7 @@ def part_one(reactions):
             req_number, req_name = req.split()
             counter[req_name] += 1
             react_dict[out_name][1][req_name] = int(req_number)
-            
+    
     print(get_ore_amount_for(1, 'FUEL', 'ORE', react_dict, counter))
 
 
@@ -60,13 +60,12 @@ def part_two(reactions):
             fuel[0] = mid
         else:
             fuel[1] = mid - 1
-            
+    
     print(fuel)
-    
-    
+
+
 with open('d14_input.txt') as fin:
     inp = fin.read().splitlines()
-
 
 # part_one(inp)
 part_two(inp)

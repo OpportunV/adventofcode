@@ -16,7 +16,7 @@ def part_one(signal: list, phases):
             
             ans[i] = abs(cur_digit) % 10
         signal = ans[:]
-        
+    
     return signal
 
 
@@ -40,7 +40,7 @@ def main():
     a = signal[:]
     b = signal[:] * 10000
     b = b[offset:]
-
+    
     print(*part_one(a, 100)[:8], sep='')
     print(*part_two(b, 100)[:8], sep='')
 
