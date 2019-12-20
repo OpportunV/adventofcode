@@ -7,16 +7,13 @@ def part_one(intcode):
     for i in range(50):
         line = []
         for j in range(50):
-            comp = IntcodeComputer(0, intcode.copy())
+            comp = IntcodeComputer(0, intcode)
             comp.cor.send(i)
             reply = comp.cor.send(j)
             total += reply
             line.append(reply)
         ans.append(line)
-    
-    for line in ans:
-        print(''.join(str(i) for i in line))
-    
+        
     return total
 
 
@@ -46,7 +43,7 @@ def main():
     with open('d19_input.txt') as fin:
         intc = [int(i) for i in fin.readline().split(',')]
     
-    # print(part_one(intc))
+    print(part_one(intc))
     print(part_two(intc))
 
 
