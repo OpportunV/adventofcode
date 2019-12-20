@@ -1,5 +1,5 @@
 class IntcodeComputer:
-    def __init__(self, ind, intcode: list = None):
+    def __init__(self, ind, intcode=None):
         self.intcode = intcode + [0] * 3000
         self.pointer = 0
         self.ind = ind
