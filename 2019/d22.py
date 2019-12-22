@@ -4,7 +4,6 @@ from collections import deque
 def part_one(commands):
     n_cards = 10007
     cards = deque(list(range(n_cards)))
-    print(cards)
     for command in commands:
         if 'cut' in command:
             n_cut = int(command.split()[-1])
@@ -18,7 +17,6 @@ def part_one(commands):
         elif 'new' in command:
             cards.reverse()
     
-    print(cards)
     return cards.index(2019)
 
 
