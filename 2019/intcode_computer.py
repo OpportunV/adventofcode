@@ -6,6 +6,7 @@ class IntcodeComputer:
         self.rel_base = 0
         self.cor = self.run()
         self.first_val = self.cor.send(None)
+        self.last_inp = None
         
     @property
     def value(self):
@@ -46,6 +47,7 @@ class IntcodeComputer:
             
             elif self.opcode == 3:
                 tmp = yield
+                self.last_inp = tmp
                 self.set_param(1, tmp)
                 self.pointer += 2
             
