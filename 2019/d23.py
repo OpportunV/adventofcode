@@ -65,7 +65,6 @@ def part_two(intcode):
         i += 1
             
 
-
 def main():
     with open('d23_input.txt') as fin:
         intc = [int(i) for i in fin.readline().split(',')]
