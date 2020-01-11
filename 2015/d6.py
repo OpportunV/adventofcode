@@ -1,3 +1,13 @@
+from matplotlib import pyplot as plt
+
+
+def plot_lights(data):
+    fig, ax = plt.subplots()
+    plt.axis('off')
+    img = plt.imshow(data)
+    plt.show()
+
+
 def part_one(inp):
     n = 1000
     data = [[False for _ in range(n)] for _ in range(n)]
@@ -17,7 +27,8 @@ def part_one(inp):
             c1, r1 = [int(i) for i in line.split()[3].split(',')]
             for i in range(r0, r1 + 1):
                 data[i][c0:c1 + 1] = [not val for val in data[i][c0:c1 + 1]]
-    
+
+    plot_lights(data)
     return sum([sum(line) for line in data])
 
 
@@ -45,6 +56,7 @@ def part_two(inp):
                 for j in range(c0, c1 + 1):
                     data[i][j] += 2
     
+    plot_lights(data)
     return sum([sum(line) for line in data])
 
 
