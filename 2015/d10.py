@@ -16,11 +16,14 @@ def step(inp):
     ans = []
     count = 1
     for i in range(len(inp) - 1):
-        if inp[i] == inp[i + 1]:
-            count += 1
-        else:
-            ans.extend([str(count), inp[i]])
-            count = 1
+        try:
+            if inp[i] == inp[i + 1]:
+                count += 1
+            else:
+                ans.extend([str(count), inp[i]])
+                count = 1
+        except IndexError:
+            pass
 
     ans.extend([str(count), inp[-1]])
     return ''.join(ans)
