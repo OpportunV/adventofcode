@@ -6,7 +6,6 @@ def part_one(inp):
                 numbers.add(i)
                 numbers.add(target // i)
         if sum(numbers) * 10 >= inp:
-            print(numbers)
             return target
 
 
@@ -17,7 +16,6 @@ def part_two(inp):
             if target % i == 0:
                 numbers.add(target // i)
         if sum(numbers) * 11 >= inp:
-            # print(numbers)
             return target
 
 
