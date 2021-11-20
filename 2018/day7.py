@@ -50,7 +50,6 @@ def part_two(inp):
     time = 0
     while True:
         for i in range(workers_amount):
-            print(time, workers, queue)
             if workers[i][1] is None and queue:
                 cur = queue.popleft()
                 workers[i] = (time + ord(cur) - 4, cur)
