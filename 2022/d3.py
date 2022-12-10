@@ -8,7 +8,7 @@ def part_one(inp):
         item: str = same.pop()
         total_priority += 1 if item.islower() else 27
         total_priority += ord(item.lower()) - ord('a')
-        
+    
     return total_priority
 
 
@@ -31,7 +31,7 @@ def main():
     
     print(part_one(inp))
     print(part_two(inp))
-    
-    
+
+
 if __name__ == '__main__':
     main()

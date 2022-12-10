@@ -45,7 +45,7 @@ def main():
     
     print(part_one(inp))
     print(part_two(inp))
-    
-    
+
+
 if __name__ == '__main__':
     main()
