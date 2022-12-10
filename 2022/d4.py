@@ -6,7 +6,7 @@ def part_one(inp):
         b1, b2 = map(int, b.split('-'))
         if a1 <= b1 and a2 >= b2 or a1 >= b1 and a2 <= b2:
             total_overlap += 1
-        
+    
     return total_overlap
 
 
@@ -28,7 +28,7 @@ def main():
     
     print(part_one(inp))
     print(part_two(inp))
-    
-    
+
+
 if __name__ == '__main__':
     main()
