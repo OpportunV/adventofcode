@@ -43,13 +43,11 @@ def part_two(inp):
     pairs.extend([target1, target2])
     done = False
     while not done:
-        flag = True
+        done = True
         for i in range(1, len(pairs)):
             if not compare(pairs[i - 1], pairs[i]):
                 pairs[i - 1], pairs[i] = pairs[i], pairs[i - 1]
-                flag = False
-        
-        done = flag
+                done = False
     
     return (pairs.index(target1) + 1) * (pairs.index(target2) + 1)
 
