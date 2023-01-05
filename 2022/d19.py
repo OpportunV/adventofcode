@@ -6,8 +6,6 @@ from functools import reduce
 
 from typing import Dict
 
-END_TIME = 32
-
 
 class ResourceType:
     ORE = 'ore'
@@ -22,8 +20,9 @@ class Game:
     MAX: Dict[int, Dict[str, int]] = defaultdict(dict)
     MAX_GEODES: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
     
-    def __init__(self, id_, start=0, robots=None, resources=None, to_skip=None):
+    def __init__(self, id_, end_time, time=0, robots=None, resources=None, to_skip=None):
         self.id = id_
+        self.end_time = end_time
         self.robots = {
             ResourceType.ORE: 1,
             ResourceType.CLAY: 0,
@@ -39,15 +38,10 @@ class Game:
         } if resources is None else deepcopy(resources)
         
         self.to_skip = set() if to_skip is None else deepcopy(to_skip)
-        self.time = start
+        self.time = time
     
     def simulate(self):
-        if Game.MAX_GEODES[self.id][self.time] > self.resources[ResourceType.GEODE]:
-            return self.resources[ResourceType.GEODE]
-        
-        Game.MAX_GEODES[self.id][self.time] = self.resources[ResourceType.GEODE]
-        
-        if self.time == END_TIME - 1:
+        if self.time == self.end_time - 1:
             self.gather_resources()
             return self.resources[ResourceType.GEODE]
         
@@ -56,7 +50,7 @@ class Game:
         self.gather_resources()
         robots = deepcopy(self.robots)
         resources = deepcopy(self.resources)
-        game = Game(self.id, self.time + 1, robots, resources, set(options))
+        game = Game(self.id, self.end_time, self.time + 1, robots, resources, set(options))
         geodes.append(game.simulate())
         for option in options:
             robots = deepcopy(self.robots)
@@ -67,7 +61,7 @@ class Game:
                 for res_type in ResourceType.ALL:
                     resources[res_type] -= current_robot[res_type]
             
-            game = Game(self.id, self.time + 1, robots, resources)
+            game = Game(self.id, self.end_time, self.time + 1, robots, resources)
             geodes.append(game.simulate())
         
         return max(geodes)
@@ -106,7 +100,8 @@ class Game:
         return options
 
 
-def get_blueprint_quality_level(blueprint):
+def get_blueprint_quality_level(item):
+    blueprint, time = item
     costs = list(map(int, re.findall(r'\d+', blueprint)))
     available_robots = {
         ResourceType.ORE: defaultdict(int, {ResourceType.ORE: costs[1]}),
@@ -124,28 +119,28 @@ def get_blueprint_quality_level(blueprint):
         ResourceType.GEODE: float("inf")
     }
     Game.MAX_GEODES[costs[0]] = defaultdict(int)
-    game = Game(costs[0])
+    game = Game(costs[0], time)
     geodes = game.simulate()
     return costs[0], geodes
 
 
 def part_one(inp):
     pool = multiprocessing.Pool(processes=6)
-    outputs = pool.map(get_blueprint_quality_level, inp)
+    outputs = pool.map(get_blueprint_quality_level, [(item, 24) for item in inp])
     return sum([a * b for a, b in outputs])
 
 
 def part_two(inp):
     pool = multiprocessing.Pool(processes=3)
-    outputs = pool.map(get_blueprint_quality_level, inp[:3])
-    return reduce(lambda x, total: x * total, outputs)
+    outputs = pool.map(get_blueprint_quality_level, [(item, 32) for item in inp[:3]])
+    return reduce(lambda x, total: x * total, [item[-1] for item in outputs])
 
 
 def main():
     with open(r'd19_input.txt') as fin:
         inp = fin.read().splitlines()
-    
-    # print(part_one(inp))
+
+    print(part_one(inp))
     print(part_two(inp))
 
 
