@@ -34,13 +34,6 @@ class Field(defaultdict):
                 except IndexError:
                     pass
     
-    def display(self):
-        for i in range(self.n_raws):
-            for j in range(self.n_cols):
-                print(super().__getitem__(complex(j, i)), end='')
-            
-            print()
-    
     def normalize_pos_on_plane(self, pos: complex):
         return complex((pos.real + self.n_cols) % self.n_cols, (pos.imag + self.n_raws) % self.n_raws)
     
@@ -58,68 +51,58 @@ class Field(defaultdict):
         """
         # stepping left from face 1 must land on face 4
         if pos.real == self.face_size - 1 and pos.imag < self.face_size:
-            assert direction == 2
             dy = pos.imag
             pos = complex(0, 3 * self.face_size - dy - 1)
             direction = 0
             return pos, direction
         # stepping left from face 4 must land on face 1
         elif pos.real == -1 and 2 * self.face_size <= pos.imag < 3 * self.face_size:
-            assert direction == 2
             dy = 3 * self.face_size - pos.imag - 1
             pos = complex(self.face_size, dy)
             direction = 0
             return pos, direction
         # stepping up from face 1 must land on face 6
         elif pos.imag == -1 and pos.real < 2 * self.face_size:
-            assert direction == 3
             dx = 2 * self.face_size - pos.real
             pos = complex(0, self.n_raws - dx)
             direction = 0
             return pos, direction
         # stepping left from face 6 must land on face 1
         elif pos.real == -1 and pos.imag >= 3 * self.face_size:
-            assert direction == 2
             dy = self.n_raws - pos.imag
             pos = complex(2 * self.face_size - dy, 0)
             direction = 1
             return pos, direction
         # stepping up from face 2 must land on face 6
         elif pos.imag == -1 and pos.real >= 2 * self.face_size:
-            assert direction == 3
             dx = pos.real - 2 * self.face_size
             pos = complex(dx, self.n_raws - 1)
             return pos, direction
         # stepping down from face 6 must land on face 2
         elif pos.imag == 4 * self.face_size:
-            assert direction == 1
             dx = pos.real
             pos = complex(2 * self.face_size + dx, 0)
             return pos, direction
         # stepping right from face 2 must land on face 5
         elif pos.real == self.n_cols:
-            assert direction == 0
             dy = pos.imag
             pos = complex(2 * self.face_size - 1, 3 * self.face_size - dy - 1)
             direction = 2
             return pos, direction
         # stepping right from face 5 must land on face 2
         elif pos.real == 2 * self.face_size and 2 * self.face_size <= pos.imag < 3 * self.face_size:
-            assert direction == 0
             dy = 3 * self.face_size - pos.imag - 1
             pos = complex(self.n_cols - 1, dy)
             direction = 2
             return pos, direction
         # stepping down from face 2 must land on face 3
         elif pos.imag == self.face_size and pos.real >= 2 * self.face_size:
-            assert direction == 1
             dx = self.n_cols - pos.real
             pos = complex(2 * self.face_size - 1, 2 * self.face_size - dx)
             direction = 2
             return pos, direction
         # stepping right from face 3 must land on face 2
         elif pos.real == 2 * self.face_size and self.face_size <= pos.imag < 2 * self.face_size:
-            assert direction == 0
             dy = 2 * self.face_size - pos.imag
             pos = complex(self.n_cols - dy, self.face_size - 1)
             direction = 3
@@ -138,14 +121,12 @@ class Field(defaultdict):
             return pos, direction
         # stepping down from face 5 must land on face 6
         elif pos.imag == 3 * self.face_size and pos.real >= self.face_size:
-            assert direction == 1
             dx = 2 * self.face_size - pos.real
             pos = complex(self.face_size - 1, self.n_raws - dx)
             direction = 2
             return pos, direction
         # stepping right from face 6 must land on face 5
         elif pos.real == self.face_size and pos.imag >= 3 * self.face_size:
-            assert direction == 0
             dy = self.n_raws - pos.imag
             pos = complex(2 * self.face_size - dy, 3 * self.face_size - 1)
             direction = 3
