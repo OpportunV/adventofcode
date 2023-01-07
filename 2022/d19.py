@@ -1,7 +1,6 @@
 import multiprocessing
 import re
 from collections import defaultdict
-from copy import deepcopy
 from functools import reduce
 
 from typing import Dict, Set
@@ -29,16 +28,16 @@ class Game:
             ResourceType.CLAY: 0,
             ResourceType.OBSIDIAN: 0,
             ResourceType.GEODE: 0,
-        } if robots is None else deepcopy(robots)
+        } if robots is None else robots
         
         self.resources = {
             ResourceType.ORE: 0,
             ResourceType.CLAY: 0,
             ResourceType.OBSIDIAN: 0,
             ResourceType.GEODE: 0,
-        } if resources is None else deepcopy(resources)
+        } if resources is None else resources
         
-        self.to_skip = set() if to_skip is None else deepcopy(to_skip)
+        self.to_skip = set() if to_skip is None else to_skip
         self.time = time
     
     @property
@@ -58,13 +57,13 @@ class Game:
         geodes = []
         options = self.get_build_options()
         self.gather_resources()
-        robots = deepcopy(self.robots)
-        resources = deepcopy(self.resources)
+        robots = self.robots.copy()
+        resources = self.resources.copy()
         game = Game(self.id, self.end_time, self.time + 1, robots, resources, set(options))
         geodes.append(game.simulate())
         for option in options:
-            robots = deepcopy(self.robots)
-            resources = deepcopy(self.resources)
+            robots = self.robots.copy()
+            resources = self.resources.copy()
             if option is not None:
                 robots[option] += 1
                 current_robot = Game.AVAILABLE_ROBOTS[option]
