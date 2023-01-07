@@ -4,7 +4,7 @@ from collections import defaultdict
 from copy import deepcopy
 from functools import reduce
 
-from typing import Dict
+from typing import Dict, Set
 
 
 class ResourceType:
@@ -19,6 +19,7 @@ class Game:
     AVAILABLE_ROBOTS: Dict[str, Dict[str, int]]
     MAX: Dict[int, Dict[str, int]] = defaultdict(dict)
     MAX_GEODES: Dict[int, Dict[int, int]] = defaultdict(lambda: defaultdict(int))
+    STATES: Dict[int, Set[str]] = defaultdict(set)
     
     def __init__(self, id_, end_time, time=0, robots=None, resources=None, to_skip=None):
         self.id = id_
@@ -40,7 +41,16 @@ class Game:
         self.to_skip = set() if to_skip is None else deepcopy(to_skip)
         self.time = time
     
+    @property
+    def state(self):
+        return f'{",".join([str(i) for i in self.resources.values()])};' \
+               f'{",".join([str(i) for i in self.robots.values()])};{self.time}'
+    
     def simulate(self):
+        if self.state in self.STATES[self.id]:
+            return self.resources[ResourceType.GEODE]
+        
+        self.STATES[self.id].add(self.state)
         if self.time == self.end_time - 1:
             self.gather_resources()
             return self.resources[ResourceType.GEODE]
@@ -139,7 +149,7 @@ def part_two(inp):
 def main():
     with open(r'd19_input.txt') as fin:
         inp = fin.read().splitlines()
-
+    
     print(part_one(inp))
     print(part_two(inp))
 
