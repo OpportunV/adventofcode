@@ -131,3 +131,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+*/input/*
+*_input.txt
